@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from graphviz import Digraph
 
-def randomDataSet(num_samples, num_positive):
+def randomDataSet(num_samples, num_positive_percentage):
     #Generate random dataset with 5 numerical features and 5 categorical features, containing missing values in all features also
     # Generating numerical features
     num_features = pd.DataFrame({
@@ -25,6 +25,7 @@ def randomDataSet(num_samples, num_positive):
     # Combine numerical and categorical features into one DataFrame
     dataset = pd.concat([num_features, cat_features], axis=1)
     target = np.zeros(num_samples)
+    num_positive = int(num_positive_percentage * num_samples)
     positive_indices = np.random.choice(dataset.index, num_positive, replace=False)
     target[positive_indices] = 1
     #target = np.random.choice([0, 1], num_samples)
@@ -167,7 +168,16 @@ def build_full_tree(df, targetName, max_depth, parentLeave):
         nodeName = best_feature + ':' + str(best_cutoff) + ';'
 
         return   build_full_tree(df_left, targetName, max_depth - 1, '(' + parentLeave +   best_feature + '-L-' + ')' ) +  build_full_tree(df_right, targetName, max_depth - 1, '(' + parentLeave +  best_feature + '-R-' + ')' )
-    
+def calculate_leaf_label(df, target_name):
+    is_numeric = can_convert_to_numeric(df, target_name)
+    if is_numeric:
+        modeData = df[target_name].value_counts(normalize=True)
+        print(modeData)
+        return str(modeData.index[0]) + ':'+ str(modeData.iloc[0])
+    else:
+        modeData = df[target_name].value_counts(normalize=True)
+        return str(modeData.index[0]) + ':'+ str(modeData.iloc[0])
+
 def build_full_tree_refactor(df, target_name, max_depth, parent_label):
     #Refactor version with help of ChatGPT
     features = [col for col in df.columns if col != target_name]
@@ -176,8 +186,10 @@ def build_full_tree_refactor(df, target_name, max_depth, parent_label):
         is_numeric = can_convert_to_numeric(df, best_feature)
         nodeSymbol =  '<' if is_numeric== True else '='
         print(f'Best feature {best_feature}, Numeric: {is_numeric}, Node symbol :{nodeSymbol}')
-    if not features or max_depth == 1:
-        return {'label': f'{best_feature}{nodeSymbol}{best_cutoff}', 'leaf': True}
+    if not features or max_depth == 0:
+        #return {'label': f'{best_feature}{nodeSymbol}{best_cutoff}', 'leaf': True}
+        leaf_label = calculate_leaf_label(df, target_name)
+        return {'label': f'{leaf_label}', 'leaf': True}
     if can_convert_to_numeric(df, best_feature):
         df_left = df[df[best_feature] <= best_cutoff]
         df_right = df[df[best_feature] > best_cutoff]
@@ -221,7 +233,7 @@ def visualize_tree(tree_structure, parent_name='', graph=None, node_id=0):
     return graph    
 
 # Example to build a decision tree and visualize the tree 
-dataset = randomDataSet(100000, 10)
+dataset = randomDataSet(100000, 0.1)
 tree_structure = build_full_tree_refactor(dataset, 'target', max_depth=3, parent_label='root')
 graph = visualize_tree(tree_structure)
 graph.render('decision_tree', format='png', cleanup=True)
