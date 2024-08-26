@@ -184,7 +184,7 @@ def build_full_tree_refactor(df, target_name, max_depth, parent_label):
     if len(features) > 0:
         best_feature, best_cutoff, best_info_gain, colIG, is_numeric = build_decision_tree(df, target_name)
         is_numeric = can_convert_to_numeric(df, best_feature)
-        nodeSymbol =  '<' if is_numeric== True else '='
+        nodeSymbol =  '<=' if is_numeric== True else '='
         print(f'Best feature {best_feature}, Numeric: {is_numeric}, Node symbol :{nodeSymbol}')
     if not features or max_depth == 0:
         #return {'label': f'{best_feature}{nodeSymbol}{best_cutoff}', 'leaf': True}
@@ -232,9 +232,41 @@ def visualize_tree(tree_structure, parent_name='', graph=None, node_id=0):
     
     return graph    
 
+def evaluate_tree(tree, observation):
+    """Code with help ChatGPT 4.0"""
+    # If the current node is a leaf, return the label
+    if tree.get('leaf', False):
+        return tree['label']
+    
+    # Parse the current node's label to extract feature and threshold
+    node_label = tree['label']
+    
+    if "<=" in node_label:
+        feature, threshold = node_label.split("<=")
+        threshold = float(threshold)
+        
+        if observation[feature.strip()] <= threshold:
+            return evaluate_tree(tree['left'], observation)
+        else:
+            return evaluate_tree(tree['right'], observation)
+    
+    elif "=" in node_label:
+        feature, value = node_label.split("=")
+        
+        if observation[feature.strip()] == value.strip():
+            return evaluate_tree(tree['left'], observation)
+        else:
+            return evaluate_tree(tree['right'], observation)
+    
+    else:
+        raise ValueError(f"Unsupported node label format: {node_label}")
+    
 # Example to build a decision tree and visualize the tree 
 dataset = randomDataSet(100000, 0.1)
-tree_structure = build_full_tree_refactor(dataset, 'target', max_depth=3, parent_label='root')
+target_name = 'target'
+tree_structure = build_full_tree_refactor(dataset, target_name, max_depth=3, parent_label='root')
+print(tree_structure)
 graph = visualize_tree(tree_structure)
 graph.render('decision_tree', format='png', cleanup=True)
 graph.view()
+dataset['Predicted'] = dataset.apply(lambda row: evaluate_tree(tree_structure, row), axis=1)
