@@ -1,0 +1,32 @@
+digraph {
+	node [shape=circle]
+	node0 [label="num_feature3<=49.95"]
+	node1 [label="cat_feature5=Type2"]
+	node0 -> node1
+	node3 [label="cat_feature1=C"]
+	node1 -> node3
+	node7 [label="0.0:0.9145907473309609:0.0-> 1028, 1.0-> 96"]
+	node3 -> node7
+	node8 [label="0.0:0.890840313428803:0.0-> 3297, 1.0-> 404"]
+	node3 -> node8
+	node4 [label="num_feature1<=-142.3047998596178"]
+	node1 -> node4
+	node9 [label="0.0:0.8878326996197718:0.0-> 934, 1.0-> 118"]
+	node4 -> node9
+	node10 [label="0.0:0.9091251317572655:0.0-> 12075, 1.0-> 1207"]
+	node4 -> node10
+	node2 [label="cat_feature2=No"]
+	node0 -> node2
+	node5 [label="num_feature5<=20.043899347257767"]
+	node2 -> node5
+	node11 [label="0.0:0.8966039606687416:0.0-> 32553, 1.0-> 3754"]
+	node5 -> node11
+	node12 [label="1.0:0.5:1.0-> 1, 0.0-> 1"]
+	node5 -> node12
+	node6 [label="num_feature4<=84.57894413360873"]
+	node2 -> node6
+	node13 [label="0.0:0.9007973048848962:0.0-> 40108, 1.0-> 4417"]
+	node6 -> node13
+	node14 [label="0.0:0.5714285714285714:0.0-> 4, 1.0-> 3"]
+	node6 -> node14
+}
