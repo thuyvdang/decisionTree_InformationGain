@@ -1,32 +1,32 @@
 digraph {
 	node [shape=circle]
-	node0 [label="num_feature3<=49.95"]
-	node1 [label="cat_feature5=Type2"]
+	node0 [label="cat_feature5=missing"]
+	node1 [label="cat_feature3=missing"]
 	node0 -> node1
-	node3 [label="cat_feature1=C"]
+	node3 [label="num_feature1<=-331.0044886609141"]
 	node1 -> node3
-	node7 [label="0.0:0.9145907473309609:0.0-> 1028, 1.0-> 96"]
+	node7 [label="1.0:1.0:1.0-> 1"]
 	node3 -> node7
-	node8 [label="0.0:0.890840313428803:0.0-> 3297, 1.0-> 404"]
+	node8 [label="0.0:0.9137977048305311:0.0-> 3424, 1.0-> 323"]
 	node3 -> node8
-	node4 [label="num_feature1<=-142.3047998596178"]
+	node4 [label="num_feature3<=49.95"]
 	node1 -> node4
-	node9 [label="0.0:0.8878326996197718:0.0-> 934, 1.0-> 118"]
+	node9 [label="0.0:0.8937056086211119:0.0-> 3649, 1.0-> 434"]
 	node4 -> node9
-	node10 [label="0.0:0.9091251317572655:0.0-> 12075, 1.0-> 1207"]
+	node10 [label="0.0:0.9038383132389772:0.0-> 15518, 1.0-> 1651"]
 	node4 -> node10
-	node2 [label="cat_feature2=No"]
+	node2 [label="num_feature4<=40.73314708525105"]
 	node0 -> node2
-	node5 [label="num_feature5<=20.043899347257767"]
+	node5 [label="num_feature1<=-183.34075125454925"]
 	node2 -> node5
-	node11 [label="0.0:0.8966039606687416:0.0-> 32553, 1.0-> 3754"]
+	node11 [label="0.0:0.9229828850855746:0.0-> 755, 1.0-> 63"]
 	node5 -> node11
-	node12 [label="1.0:0.5:1.0-> 1, 0.0-> 1"]
+	node12 [label="0.0:0.8939094683381031:0.0-> 22177, 1.0-> 2632"]
 	node5 -> node12
-	node6 [label="num_feature4<=84.57894413360873"]
+	node6 [label="num_feature3<=549.45"]
 	node2 -> node6
-	node13 [label="0.0:0.9007973048848962:0.0-> 40108, 1.0-> 4417"]
+	node13 [label="0.0:0.9031400728418152:0.0-> 27525, 1.0-> 2952"]
 	node6 -> node13
-	node14 [label="0.0:0.5714285714285714:0.0-> 4, 1.0-> 3"]
+	node14 [label="0.0:0.8971210838272651:0.0-> 16952, 1.0-> 1944"]
 	node6 -> node14
 }
